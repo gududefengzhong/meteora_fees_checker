@@ -677,7 +677,7 @@
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
-            <div class="progress-text" id="progressText">准备中...</div>
+            <div class="progress-text" id="progressText" data-i18n="preparing-text">Preparing...</div>
         </div>
 
         <div class="error" id="error"></div>
@@ -768,8 +768,10 @@
                 'input-placeholder': 'Enter Solana wallet address (e.g., 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM)',
                 'search-btn': 'Check Fees',
                 'loading-text': 'Querying fees data...',
+                'preparing-text': 'Preparing...',
                 'error-not-found': 'Meteora DLMM trading pair data not found for this Solana wallet.',
                 'error-network': 'Network error, please try again later.',
+                'query-failed': 'Query Failed',
                 'total-fees': 'Total Fees',
                 'total-fees-label': 'Total Fees Earned (USD)',
                 'details-title': 'Details',
@@ -803,8 +805,10 @@
                 'input-placeholder': '输入Solana钱包地址 (如: 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM)',
                 'search-btn': '查询手续费',
                 'loading-text': '正在查询手续费数据...',
+                'preparing-text': '准备中...',
                 'error-not-found': '未找到该Solana钱包的Meteora DLMM交易对数据',
                 'error-network': '网络错误，请稍后重试',
+                'query-failed': '查询失败',
                 'total-fees': '总手续费',
                 'total-fees-label': '总手续费收入 (USD)',
                 'details-title': '详细信息',
@@ -838,8 +842,10 @@
                 'input-placeholder': 'Solanaウォレットアドレスを入力 (例: 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM)',
                 'search-btn': '利益を確認',
                 'loading-text': '利益データを照会中...',
+                'preparing-text': '準備中...',
                 'error-not-found': 'このSolanaウォレットのMeteora DLMM取引ペアデータが見つかりません',
                 'error-network': 'ネットワークエラー、後でもう一度お試しください',
+                'query-failed': 'クエリ失敗',
                 'total-fees': '総手数料',
                 'total-fees-label': '総手数料収入 (USD)',
                 'details-title': '詳細情報',
@@ -873,6 +879,7 @@
                 'input-placeholder': 'Masukkan alamat dompet Solana (cth: 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM)',
                 'search-btn': 'Periksa Keuntungan',
                 'loading-text': 'Menanyakan data keuntungan...',
+                'preparing-text': 'Menyediakan...',
                 'error-not-found': 'Data pasangan dagangan Meteora DLMM tidak dijumpai untuk dompet Solana ini',
                 'error-network': 'Ralat rangkaian, sila cuba lagi kemudian',
                 'total-profit': 'Jumlah Keuntungan',
@@ -908,6 +915,7 @@
                 'input-placeholder': 'Solana 지갑 주소 입력 (예: 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM)',
                 'search-btn': '수익 확인',
                 'loading-text': '수익 데이터 조회 중...',
+                'preparing-text': '준비 중...',
                 'error-not-found': '이 Solana 지갑의 Meteora DLMM 거래 쌍 데이터를 찾을 수 없습니다',
                 'error-network': '네트워크 오류, 나중에 다시 시도해주세요',
                 'total-profit': '총 수익',
@@ -928,7 +936,12 @@
                 'thanks-text-and': '과',
                 'thanks-text-part2': '에게 감사드립니다. 이 Solana 생태계 데이터 쿼리 도구를 실현할 수 있게 해주셨습니다.',
                 'thanks-footer': '이 도구는 오픈 소스이며 무료입니다. Solana와 Meteora 사용자에게 편리한 수익 쿼리 서비스를 제공하기 위해 설계되었습니다 ❤️',
-                'celebration-message': '🎉 축하합니다! 수익이 있습니다! 🎉',
+                'celebration-message': '🎉 축하합니다! 수수료를 획득했습니다! 🎉',
+                'ceo-message': '🎉 CEO의 축하 인사! 훌륭한 수수료를 획득하셨습니다! 계속해서 우수한 성과를 보여주세요! 🎉',
+                'progress-text': '{completed}/{total} 쿼리 완료',
+                'seconds-unit': '초',
+                'query-failed': '쿼리 실패',
+                'preparing-text': '준비 중...',
                 'error-empty-address': 'Solana 지갑 주소를 입력하세요',
                 'error-invalid-address': '유효한 Solana 지갑 주소를 입력하세요'
             },
@@ -940,6 +953,7 @@
                 'input-placeholder': 'Entrez l\'adresse du portefeuille Solana (ex: 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM)',
                 'search-btn': 'Vérifier les Profits',
                 'loading-text': 'Interrogation des données de profit...',
+                'preparing-text': 'Préparation...',
                 'error-not-found': 'Données de paire de trading Meteora DLMM non trouvées pour ce portefeuille Solana',
                 'error-network': 'Erreur réseau, veuillez réessayer plus tard',
                 'total-profit': 'Profit Total',
@@ -960,7 +974,12 @@
                 'thanks-text-and': 'et',
                 'thanks-text-part2': 'pour avoir fourni un excellent support technique et des services de données qui rendent cet outil de requête de données de l\'écosystème Solana possible.',
                 'thanks-footer': 'Cet outil est open source et gratuit, conçu pour fournir des services de requête de profits pratiques pour les utilisateurs Solana et Meteora ❤️',
-                'celebration-message': '🎉 Félicitations ! Vous avez des profits ! 🎉',
+                'celebration-message': '🎉 Félicitations ! Vous avez gagné des frais ! 🎉',
+                'ceo-message': '🎉 Félicitations de notre PDG ! Vous avez gagné d\'excellents frais ! Continuez votre excellent travail ! 🎉',
+                'progress-text': '{completed}/{total} requêtes terminées',
+                'seconds-unit': 's',
+                'query-failed': 'Échec de la requête',
+                'preparing-text': 'Préparation...',
                 'error-empty-address': 'Veuillez entrer une adresse de portefeuille Solana',
                 'error-invalid-address': 'Veuillez entrer une adresse de portefeuille Solana valide'
             },
@@ -972,6 +991,7 @@
                 'input-placeholder': 'Solana-Wallet-Adresse eingeben (z.B.: 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM)',
                 'search-btn': 'Gewinne Prüfen',
                 'loading-text': 'Gewinnsdaten abfragen...',
+                'preparing-text': 'Vorbereitung...',
                 'error-not-found': 'Meteora DLMM-Handelspaar-Daten für diese Solana-Wallet nicht gefunden',
                 'error-network': 'Netzwerkfehler, bitte versuchen Sie es später erneut',
                 'total-profit': 'Gesamtgewinn',
@@ -992,7 +1012,12 @@
                 'thanks-text-and': 'und',
                 'thanks-text-part2': 'für die Bereitstellung exzellenter technischer Unterstützung und Datenservices, die dieses Solana-Ökosystem-Datenabfrage-Tool ermöglichen.',
                 'thanks-footer': 'Dieses Tool ist Open Source und kostenlos, entwickelt um bequeme Gewinnabfrage-Services für Solana- und Meteora-Benutzer zu bieten ❤️',
-                'celebration-message': '🎉 Herzlichen Glückwunsch! Sie haben Gewinne! 🎉',
+                'celebration-message': '🎉 Herzlichen Glückwunsch! Sie haben Gebühren verdient! 🎉',
+                'ceo-message': '🎉 Glückwünsche von unserem CEO! Sie haben großartige Gebühren verdient! Machen Sie weiter so! 🎉',
+                'progress-text': '{completed}/{total} Abfragen abgeschlossen',
+                'seconds-unit': 's',
+                'query-failed': 'Abfrage fehlgeschlagen',
+                'preparing-text': 'Vorbereitung...',
                 'error-empty-address': 'Bitte geben Sie eine Solana-Wallet-Adresse ein',
                 'error-invalid-address': 'Bitte geben Sie eine gültige Solana-Wallet-Adresse ein'
             }
@@ -1027,15 +1052,37 @@
                     }
                 });
 
-                // Update placeholder
+                // Update placeholder safely
                 const walletInput = document.getElementById('walletInput');
-                const placeholderKey = walletInput.getAttribute('data-i18n-placeholder');
-                if (translations[lang] && translations[lang][placeholderKey]) {
-                    walletInput.placeholder = translations[lang][placeholderKey];
+                if (walletInput) {
+                    const placeholderKey = walletInput.getAttribute('data-i18n-placeholder');
+                    if (translations[lang] && translations[lang][placeholderKey]) {
+                        // 保存当前的输入值和状态
+                        const currentValue = walletInput.value;
+                        const isDisabled = walletInput.disabled;
+                        const isReadonly = walletInput.readOnly;
+
+                        // 更新placeholder
+                        walletInput.placeholder = translations[lang][placeholderKey];
+
+                        // 恢复状态
+                        walletInput.value = currentValue;
+                        walletInput.disabled = isDisabled;
+                        walletInput.readOnly = isReadonly;
+
+                        // 确保输入框可以获得焦点
+                        if (!isDisabled && !isReadonly) {
+                            walletInput.style.pointerEvents = 'auto';
+                            walletInput.tabIndex = 0;
+                        }
+                    }
                 }
 
                 // Update language selector
-                document.getElementById('languageSelect').value = lang;
+                const languageSelect = document.getElementById('languageSelect');
+                if (languageSelect) {
+                    languageSelect.value = lang;
+                }
             }
 
             getText(key) {
@@ -1122,7 +1169,18 @@
                 // Update CEO message with current language
                 const languageManager = window.languageManager;
                 const ceoMessageElement = this.ceoSpeechBubble.querySelector('[data-i18n="ceo-message"]');
-                ceoMessageElement.textContent = languageManager.getText('ceo-message');
+
+                if (ceoMessageElement && languageManager) {
+                    const currentLang = languageManager.currentLanguage || 'en';
+                    const ceoMessage = languageManager.getText('ceo-message');
+
+                    console.log('CEO Celebration - Current Language:', currentLang);
+                    console.log('CEO Message:', ceoMessage);
+
+                    ceoMessageElement.textContent = ceoMessage;
+                } else {
+                    console.error('CEO message element or language manager not found');
+                }
 
                 // Show CEO celebration
                 this.ceoCelebration.classList.add('active');
@@ -1459,7 +1517,7 @@
                         pairItem.innerHTML = `
                             <span class="pair-address">${detail.lbPair.slice(0, 8)}...${detail.lbPair.slice(-6)}</span>
                             <span class="pair-profit" style="color: ${profitColor}">
-                                ${detail.success ? `$${detail.profit.toFixed(6)}` : '查询失败'}
+                                ${detail.success ? `$${detail.profit.toFixed(6)}` : window.languageManager.getText('query-failed')}
                             </span>
                         `;
 
