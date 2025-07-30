@@ -1,0 +1,1 @@
+{"total_wallets":534746,"total_pairs":4418580,"total_files":241,"max_files_limit":16,"max_wallets_per_file":10000,"last_updated":"2025-07-31T00:55:49.764437","data_structure":"优化分组存储，适合GitHub仓库","blockchain":"Solana","project":"Meteora DLMM","storage_strategy":"16进制字符分组，自动细分大文件","github_optimized":true}

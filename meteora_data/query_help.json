@@ -1,0 +1,16 @@
+{
+  "how_to_query": "根据钱包地址查询对应的数据文件",
+  "steps": [
+    "1. 从 wallet_index.json 中查找钱包地址对应的文件名",
+    "2. 加载对应的 wallets_*.json 文件",
+    "3. 从文件的 wallets 字段中获取该钱包的 lbPair 列表"
+  ],
+  "example": {
+    "wallet": "9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM",
+    "step1": "查找 wallet_index.json['9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM']",
+    "step2": "假设返回 'wallets_9.json'，则加载该文件",
+    "step3": "获取 wallets_9.json['wallets']['9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM']"
+  },
+  "file_structure": "wallets_[group].json",
+  "total_files": 241
+}
