@@ -1258,6 +1258,30 @@
                 this.initEventListeners();
             }
 
+            // 格式化金额显示
+            formatAmount(amount) {
+                if (amount === 0) return '$0';
+
+                // 如果金额小于0.01，显示为 < $0.01
+                if (Math.abs(amount) < 0.01) {
+                    return amount > 0 ? '< $0.01' : '< -$0.01';
+                }
+
+                // 如果金额小于1，显示2位小数
+                if (Math.abs(amount) < 1) {
+                    return `$${amount.toFixed(2)}`;
+                }
+
+                // 如果金额小于1000，显示整数
+                if (Math.abs(amount) < 1000) {
+                    return `$${Math.round(amount)}`;
+                }
+
+                // 如果金额大于等于1000，使用千分位分隔符
+                const formatted = Math.round(amount).toLocaleString('en-US');
+                return `$${formatted}`;
+            }
+
             initEventListeners() {
                 const searchBtn = document.getElementById('searchBtn');
                 const walletInput = document.getElementById('walletInput');
@@ -1489,9 +1513,9 @@
             }
 
             displayResults(walletAddress, profitData) {
-                // 显示总盈利
+                // 显示总手续费收入
                 document.getElementById('totalProfit').textContent =
-                    `$${profitData.totalProfit.toFixed(6)}`;
+                    this.formatAmount(profitData.totalProfit);
 
                 // 显示详细信息 - Solana地址格式
                 document.getElementById('walletAddress').textContent =
@@ -1517,7 +1541,7 @@
                         pairItem.innerHTML = `
                             <span class="pair-address">${detail.lbPair.slice(0, 8)}...${detail.lbPair.slice(-6)}</span>
                             <span class="pair-profit" style="color: ${profitColor}">
-                                ${detail.success ? `$${detail.profit.toFixed(6)}` : window.languageManager.getText('query-failed')}
+                                ${detail.success ? this.formatAmount(detail.profit) : window.languageManager.getText('query-failed')}
                             </span>
                         `;
 

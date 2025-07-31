@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEO Celebration Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .test-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.3s ease;
+        }
+        .test-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* CEO Celebration Effects */
+        .ceo-celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10001;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .ceo-celebration.active {
+            opacity: 1;
+        }
+
+        .ceo-avatar {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 8px solid #fff;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 8px;
+        }
+
+        .ceo-avatar.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .ceo-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .ceo-speech-bubble {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: white;
+            padding: 20px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 10002;
+        }
+
+        .ceo-speech-bubble.show {
+            transform: translateX(-50%) scale(1);
+        }
+
+        .ceo-speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 15px solid white;
+        }
+
+        .ceo-sparkles {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1) rotate(180deg);
+                opacity: 1;
+            }
+        }
+
+        .ceo-celebration-text {
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 3s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- CEO Celebration -->
+    <div class="ceo-celebration" id="ceoCelebration">
+        <div class="ceo-speech-bubble" id="ceoSpeechBubble">
+            <span class="ceo-celebration-text">
+                🎉 Congratulations from our CEO! You've earned great fees! Keep up the excellent work! 🎉
+            </span>
+        </div>
+        <div class="ceo-avatar" id="ceoAvatar">
+            <img src="Soju.jpeg" alt="CEO Soju" onerror="this.src='Soju.png'">
+        </div>
+    </div>
+    
+    <div class="container">
+        <h1>🎉 CEO Celebration Effect Test</h1>
+        <p>Test the CEO celebration animation with Soju's image</p>
+        
+        <button class="test-btn" onclick="testCEOCelebration()">
+            🎊 Test CEO Celebration
+        </button>
+        
+        <button class="test-btn" onclick="hideCelebration()">
+            ❌ Hide Celebration
+        </button>
+        
+        <div style="margin-top: 30px;">
+            <h3>Features:</h3>
+            <ul style="text-align: left;">
+                <li>CEO avatar with Soju's image</li>
+                <li>Animated speech bubble</li>
+                <li>Golden sparkles around CEO</li>
+                <li>Gradient text animation</li>
+                <li>Smooth scale animations</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // CEO Celebration Manager
+        class CEOCelebrationManager {
+            constructor() {
+                this.ceoCelebration = document.getElementById('ceoCelebration');
+                this.ceoAvatar = document.getElementById('ceoAvatar');
+                this.ceoSpeechBubble = document.getElementById('ceoSpeechBubble');
+            }
+
+            celebrate() {
+                console.log('🎉 Starting CEO celebration...');
+                
+                // Show CEO celebration
+                this.ceoCelebration.classList.add('active');
+
+                // Animate speech bubble first
+                setTimeout(() => {
+                    this.ceoSpeechBubble.classList.add('show');
+                    console.log('💬 Speech bubble shown');
+                }, 200);
+
+                // Then animate CEO avatar
+                setTimeout(() => {
+                    this.ceoAvatar.classList.add('show');
+                    console.log('👨‍💼 CEO avatar shown');
+                }, 600);
+
+                // Create sparkles around CEO
+                this.createSparkles();
+
+                // Hide after 5 seconds
+                setTimeout(() => {
+                    this.hide();
+                }, 5000);
+            }
+
+            createSparkles() {
+                console.log('✨ Creating sparkles...');
+                for (let i = 0; i < 15; i++) {
+                    setTimeout(() => {
+                        const sparkle = document.createElement('div');
+                        sparkle.className = 'ceo-sparkles';
+                        
+                        // Random position around CEO avatar
+                        const angle = (Math.PI * 2 * i) / 15;
+                        const radius = 150 + Math.random() * 100;
+                        const x = 50 + Math.cos(angle) * radius / window.innerWidth * 100;
+                        const y = 50 + Math.sin(angle) * radius / window.innerHeight * 100;
+                        
+                        sparkle.style.left = x + '%';
+                        sparkle.style.top = y + '%';
+                        sparkle.style.animationDelay = Math.random() * 2 + 's';
+                        
+                        this.ceoCelebration.appendChild(sparkle);
+
+                        // Remove sparkle after animation
+                        setTimeout(() => {
+                            sparkle.remove();
+                        }, 2000);
+                    }, i * 100);
+                }
+            }
+
+            hide() {
+                console.log('🔚 Hiding CEO celebration...');
+                this.ceoAvatar.classList.remove('show');
+                this.ceoSpeechBubble.classList.remove('show');
+                
+                setTimeout(() => {
+                    this.ceoCelebration.classList.remove('active');
+                    // Clear sparkles
+                    this.ceoCelebration.querySelectorAll('.ceo-sparkles').forEach(sparkle => {
+                        sparkle.remove();
+                    });
+                }, 500);
+            }
+        }
+
+        // Initialize CEO celebration manager
+        const ceoCelebrationManager = new CEOCelebrationManager();
+
+        function testCEOCelebration() {
+            ceoCelebrationManager.celebrate();
+        }
+
+        function hideCelebration() {
+            ceoCelebrationManager.hide();
+        }
+
+        // Auto test on page load
+        setTimeout(() => {
+            console.log('🚀 Auto-testing CEO celebration...');
+            testCEOCelebration();
+        }, 1000);
+    </script>
+</body>
+</html>

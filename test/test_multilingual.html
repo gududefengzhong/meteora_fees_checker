@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multilingual Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        .language-switcher {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .language-select {
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .test-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+        .celebration-test {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .celebrate-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .celebrate-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Copy celebration styles from main file */
+        .celebration-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .celebration-overlay.active {
+            opacity: 1;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            animation: confetti-fall 3s linear infinite;
+        }
+        .confetti:nth-child(2n) { background: #4ecdc4; }
+        .confetti:nth-child(3n) { background: #45b7d1; }
+        .confetti:nth-child(4n) { background: #f9ca24; }
+        .confetti:nth-child(5n) { background: #6c5ce7; }
+        .confetti:nth-child(6n) { background: #a29bfe; }
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        .celebration-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px 50px;
+            border-radius: 20px;
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.5);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        .celebration-message.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+    </style>
+</head>
+<body>
+    <div class="celebration-overlay" id="celebrationOverlay"></div>
+    <div class="celebration-message" id="celebrationMessage"></div>
+    
+    <div class="container">
+        <h1 data-i18n="title">Meteora Profit Checker - Multilingual Test</h1>
+        
+        <div class="language-switcher">
+            <select class="language-select" id="languageSelect">
+                <option value="en">🇺🇸 English</option>
+                <option value="zh">🇨🇳 中文</option>
+                <option value="ja">🇯🇵 日本語</option>
+                <option value="ms">🇲🇾 Bahasa Malaysia</option>
+                <option value="ko">🇰🇷 한국어</option>
+                <option value="fr">🇫🇷 Français</option>
+                <option value="de">🇩🇪 Deutsch</option>
+            </select>
+        </div>
+
+        <div class="test-section">
+            <h2 data-i18n="test-title">Language Test</h2>
+            <div class="test-item">
+                <strong data-i18n="disclaimer-title">⚠️ Disclaimer</strong>: 
+                <span data-i18n="disclaimer-text">This tool is for reference only...</span>
+            </div>
+            <div class="test-item">
+                <strong data-i18n="search-btn">Check Profits</strong>
+            </div>
+            <div class="test-item">
+                <strong data-i18n="loading-text">Querying profit data...</strong>
+            </div>
+            <div class="test-item">
+                <strong data-i18n="error-not-found">Wallet not found</strong>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2 data-i18n="contact-developer-title">👨‍💻 Contact Developer</h2>
+            <div class="test-item">
+                <strong data-i18n="thanks-title">🙏 Special Thanks</strong>
+            </div>
+            <div class="test-item">
+                <span data-i18n="thanks-text-part1">Thanks to</span>
+                <strong>Meteora</strong>
+                <span data-i18n="thanks-text-and">and</span>
+                <strong>Dune Analytics</strong>
+                <span data-i18n="thanks-text-part2">for excellent support...</span>
+            </div>
+            <div class="test-item">
+                <span data-i18n="thanks-footer">This tool is open source and free...</span>
+            </div>
+        </div>
+
+        <div class="celebration-test">
+            <h2 data-i18n="celebration-test-title">Celebration Test</h2>
+            <button class="celebrate-btn" onclick="testCelebration()" data-i18n="celebrate-btn">
+                🎉 Test Celebration
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Simplified translations for testing
+        const translations = {
+            en: {
+                'title': 'Meteora Profit Checker - Multilingual Test',
+                'test-title': 'Language Test',
+                'disclaimer-title': '⚠️ Disclaimer',
+                'disclaimer-text': 'This tool is for reference only and may contain delays or errors.',
+                'search-btn': 'Check Profits',
+                'loading-text': 'Querying profit data...',
+                'error-not-found': 'Meteora DLMM trading pair data not found for this Solana wallet.',
+                'contact-developer-title': '👨‍💻 Contact Developer',
+                'thanks-title': '🙏 Special Thanks',
+                'thanks-text-part1': 'Thanks to',
+                'thanks-text-and': 'and',
+                'thanks-text-part2': 'for providing excellent technical support and data services.',
+                'thanks-footer': 'This tool is open source and free ❤️',
+                'celebration-message': '🎉 Congratulations! You have profits! 🎉',
+                'celebration-test-title': 'Celebration Test',
+                'celebrate-btn': '🎉 Test Celebration'
+            },
+            zh: {
+                'title': 'Meteora 盈利查询器 - 多语言测试',
+                'test-title': '语言测试',
+                'disclaimer-title': '⚠️ 免责声明',
+                'disclaimer-text': '本工具仅供参考使用，显示的数据可能存在延迟或误差。',
+                'search-btn': '查询盈利',
+                'loading-text': '正在查询盈利数据...',
+                'error-not-found': '未找到该Solana钱包的Meteora DLMM交易对数据',
+                'contact-developer-title': '👨‍💻 联系开发者',
+                'thanks-title': '🙏 特别感谢',
+                'thanks-text-part1': '感谢',
+                'thanks-text-and': '和',
+                'thanks-text-part2': '提供的优秀技术支持和数据服务。',
+                'thanks-footer': '本工具开源免费 ❤️',
+                'celebration-message': '🎉 恭喜！您有盈利！🎉',
+                'celebration-test-title': '祝贺效果测试',
+                'celebrate-btn': '🎉 测试祝贺效果'
+            },
+            ja: {
+                'title': 'Meteora 利益チェッカー - 多言語テスト',
+                'test-title': '言語テスト',
+                'disclaimer-title': '⚠️ 免責事項',
+                'disclaimer-text': 'このツールは参考用途のみで、データに遅延や誤差がある可能性があります。',
+                'search-btn': '利益を確認',
+                'loading-text': '利益データを照会中...',
+                'error-not-found': 'このSolanaウォレットのMeteora DLMM取引ペアデータが見つかりません',
+                'celebration-message': '🎉 おめでとうございます！利益があります！🎉',
+                'celebration-test-title': 'お祝い効果テスト',
+                'celebrate-btn': '🎉 お祝い効果をテスト'
+            },
+            ms: {
+                'title': 'Pemeriksa Keuntungan Meteora - Ujian Pelbagai Bahasa',
+                'test-title': 'Ujian Bahasa',
+                'disclaimer-title': '⚠️ Penafian',
+                'disclaimer-text': 'Alat ini hanya untuk rujukan dan mungkin mengandungi kelewatan atau ralat.',
+                'search-btn': 'Periksa Keuntungan',
+                'loading-text': 'Menanyakan data keuntungan...',
+                'error-not-found': 'Data pasangan dagangan Meteora DLMM tidak dijumpai untuk dompet Solana ini',
+                'celebration-message': '🎉 Tahniah! Anda mempunyai keuntungan! 🎉',
+                'celebration-test-title': 'Ujian Kesan Perayaan',
+                'celebrate-btn': '🎉 Uji Kesan Perayaan'
+            },
+            ko: {
+                'title': 'Meteora 수익 체커 - 다국어 테스트',
+                'test-title': '언어 테스트',
+                'disclaimer-title': '⚠️ 면책 조항',
+                'disclaimer-text': '이 도구는 참고용으로만 사용되며 데이터에 지연이나 오류가 있을 수 있습니다.',
+                'search-btn': '수익 확인',
+                'loading-text': '수익 데이터 조회 중...',
+                'error-not-found': '이 Solana 지갑의 Meteora DLMM 거래 쌍 데이터를 찾을 수 없습니다',
+                'celebration-message': '🎉 축하합니다! 수익이 있습니다! 🎉',
+                'celebration-test-title': '축하 효과 테스트',
+                'celebrate-btn': '🎉 축하 효과 테스트'
+            },
+            fr: {
+                'title': 'Vérificateur de Profits Meteora - Test Multilingue',
+                'test-title': 'Test de Langue',
+                'disclaimer-title': '⚠️ Avertissement',
+                'disclaimer-text': 'Cet outil est uniquement à des fins de référence et peut contenir des retards ou des erreurs.',
+                'search-btn': 'Vérifier les Profits',
+                'loading-text': 'Interrogation des données de profit...',
+                'error-not-found': 'Données de paire de trading Meteora DLMM non trouvées pour ce portefeuille Solana',
+                'celebration-message': '🎉 Félicitations ! Vous avez des profits ! 🎉',
+                'celebration-test-title': 'Test d\'Effet de Célébration',
+                'celebrate-btn': '🎉 Tester la Célébration'
+            },
+            de: {
+                'title': 'Meteora Gewinn-Checker - Mehrsprachiger Test',
+                'test-title': 'Sprachtest',
+                'disclaimer-title': '⚠️ Haftungsausschluss',
+                'disclaimer-text': 'Dieses Tool dient nur als Referenz und kann Verzögerungen oder Fehler enthalten.',
+                'search-btn': 'Gewinne Prüfen',
+                'loading-text': 'Gewinnsdaten abfragen...',
+                'error-not-found': 'Meteora DLMM-Handelspaar-Daten für diese Solana-Wallet nicht gefunden',
+                'celebration-message': '🎉 Herzlichen Glückwunsch! Sie haben Gewinne! 🎉',
+                'celebration-test-title': 'Feier-Effekt Test',
+                'celebrate-btn': '🎉 Feier-Effekt Testen'
+            }
+        };
+
+        // Language Manager
+        class LanguageManager {
+            constructor() {
+                this.currentLanguage = 'en';
+                this.init();
+            }
+
+            init() {
+                const languageSelect = document.getElementById('languageSelect');
+                languageSelect.addEventListener('change', (e) => {
+                    this.setLanguage(e.target.value);
+                });
+                this.setLanguage('en');
+            }
+
+            setLanguage(lang) {
+                this.currentLanguage = lang;
+                document.documentElement.lang = lang;
+                
+                document.querySelectorAll('[data-i18n]').forEach(element => {
+                    const key = element.getAttribute('data-i18n');
+                    if (translations[lang] && translations[lang][key]) {
+                        element.textContent = translations[lang][key];
+                    }
+                });
+
+                document.getElementById('languageSelect').value = lang;
+            }
+
+            getText(key) {
+                return translations[this.currentLanguage][key] || translations['en'][key] || key;
+            }
+        }
+
+        // Celebration Manager
+        class CelebrationManager {
+            constructor() {
+                this.overlay = document.getElementById('celebrationOverlay');
+                this.message = document.getElementById('celebrationMessage');
+            }
+
+            celebrate() {
+                const languageManager = window.languageManager;
+                this.message.textContent = languageManager.getText('celebration-message');
+                this.message.classList.add('show');
+
+                this.createConfetti();
+                this.overlay.classList.add('active');
+
+                setTimeout(() => {
+                    this.hide();
+                }, 4000);
+            }
+
+            createConfetti() {
+                for (let i = 0; i < 50; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.animationDelay = Math.random() * 3 + 's';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    this.overlay.appendChild(confetti);
+                }
+            }
+
+            hide() {
+                this.overlay.classList.remove('active');
+                this.message.classList.remove('show');
+                
+                setTimeout(() => {
+                    this.overlay.innerHTML = '';
+                }, 500);
+            }
+        }
+
+        // Initialize
+        window.languageManager = new LanguageManager();
+        window.celebrationManager = new CelebrationManager();
+
+        function testCelebration() {
+            window.celebrationManager.celebrate();
+        }
+    </script>
+</body>
+</html>

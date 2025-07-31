@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amount Formatting Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        .amount-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .original {
+            color: #dc3545;
+            font-family: monospace;
+        }
+        .formatted {
+            color: #28a745;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        .test-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .custom-input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 5px;
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💰 Amount Formatting Test</h1>
+        <p>测试新的金额格式化功能，让显示更友好美观</p>
+
+        <div class="test-section">
+            <h3>📊 格式化规则</h3>
+            <ul>
+                <li><strong>$0</strong> → 显示为 "$0"</li>
+                <li><strong>< $0.01</strong> → 显示为 "< $0.01"</li>
+                <li><strong>$0.01 - $0.99</strong> → 显示2位小数 (如 "$0.25")</li>
+                <li><strong>$1 - $999</strong> → 显示整数 (如 "$123")</li>
+                <li><strong>≥ $1,000</strong> → 使用千分位分隔符 (如 "$12,345")</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h3>🧪 测试样例</h3>
+            <div id="testResults"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🎮 自定义测试</h3>
+            <input type="number" class="custom-input" id="customAmount" placeholder="输入金额" step="0.000001">
+            <button class="test-btn" onclick="testCustomAmount()">测试格式化</button>
+            <div id="customResult" style="margin-top: 10px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // 格式化金额函数 (与主文件相同)
+        function formatAmount(amount) {
+            if (amount === 0) return '$0';
+            
+            // 如果金额小于0.01，显示为 < $0.01
+            if (Math.abs(amount) < 0.01) {
+                return amount > 0 ? '< $0.01' : '< -$0.01';
+            }
+            
+            // 如果金额小于1，显示2位小数
+            if (Math.abs(amount) < 1) {
+                return `$${amount.toFixed(2)}`;
+            }
+            
+            // 如果金额小于1000，显示整数
+            if (Math.abs(amount) < 1000) {
+                return `$${Math.round(amount)}`;
+            }
+            
+            // 如果金额大于等于1000，使用千分位分隔符
+            const formatted = Math.round(amount).toLocaleString('en-US');
+            return `$${formatted}`;
+        }
+
+        // 旧的格式化方式 (6位小数)
+        function oldFormat(amount) {
+            return `$${amount.toFixed(6)}`;
+        }
+
+        // 测试数据
+        const testAmounts = [
+            0,
+            0.000001,
+            0.000123,
+            0.001,
+            0.005,
+            0.009,
+            0.01,
+            0.05,
+            0.123,
+            0.99,
+            1,
+            1.23,
+            12.34,
+            123.45,
+            999.99,
+            1000,
+            1234.56,
+            12345.67,
+            123456.78,
+            1234567.89,
+            -0.005,
+            -1.23,
+            -1234.56
+        ];
+
+        function runTests() {
+            const resultsDiv = document.getElementById('testResults');
+            resultsDiv.innerHTML = '';
+
+            testAmounts.forEach(amount => {
+                const row = document.createElement('div');
+                row.className = 'amount-row';
+                
+                row.innerHTML = `
+                    <span>原始值: <strong>${amount}</strong></span>
+                    <span class="original">旧格式: ${oldFormat(amount)}</span>
+                    <span class="formatted">新格式: ${formatAmount(amount)}</span>
+                `;
+                
+                resultsDiv.appendChild(row);
+            });
+        }
+
+        function testCustomAmount() {
+            const input = document.getElementById('customAmount');
+            const result = document.getElementById('customResult');
+            
+            const amount = parseFloat(input.value);
+            
+            if (isNaN(amount)) {
+                result.innerHTML = '<span style="color: #dc3545;">请输入有效的数字</span>';
+                return;
+            }
+            
+            result.innerHTML = `
+                <div class="amount-row">
+                    <span>输入值: <strong>${amount}</strong></span>
+                    <span class="original">旧格式: ${oldFormat(amount)}</span>
+                    <span class="formatted">新格式: ${formatAmount(amount)}</span>
+                </div>
+            `;
+        }
+
+        // 页面加载时运行测试
+        document.addEventListener('DOMContentLoaded', function() {
+            runTests();
+        });
+
+        // 回车键测试
+        document.getElementById('customAmount').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                testCustomAmount();
+            }
+        });
+    </script>
+</body>
+</html>

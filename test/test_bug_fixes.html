@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug Fixes Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        .test-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-size: 14px;
+            cursor: pointer;
+            margin: 5px;
+            transition: transform 0.3s ease;
+        }
+        .test-btn:hover {
+            transform: translateY(-2px);
+        }
+        .language-switcher {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .language-select {
+            padding: 8px 12px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .test-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+            transition: border-color 0.3s ease;
+        }
+        .test-input:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+        .test-input:disabled {
+            background: #f5f5f5;
+            cursor: not-allowed;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐛 Bug Fixes Test Page</h1>
+        <p>测试修复的两个bug：输入框点击问题和CEO消息语言问题</p>
+
+        <!-- Language Switcher -->
+        <div class="language-switcher">
+            <label>选择语言 / Select Language:</label><br>
+            <select class="language-select" id="languageSelect">
+                <option value="en">🇺🇸 English</option>
+                <option value="zh">🇨🇳 中文</option>
+                <option value="ja">🇯🇵 日本語</option>
+                <option value="ms">🇲🇾 Bahasa Malaysia</option>
+                <option value="ko">🇰🇷 한국어</option>
+                <option value="fr">🇫🇷 Français</option>
+                <option value="de">🇩🇪 Deutsch</option>
+            </select>
+        </div>
+
+        <!-- Bug 1 Test: Input Field -->
+        <div class="test-section">
+            <h3 data-i18n="bug1-title">🐛 Bug 1: Input Field Click Issue</h3>
+            <p data-i18n="bug1-desc">Test if input field remains clickable after language switch</p>
+            
+            <input type="text" 
+                   class="test-input" 
+                   id="testInput" 
+                   data-i18n-placeholder="input-placeholder"
+                   placeholder="Enter Solana wallet address">
+            
+            <div class="status info" id="inputStatus">
+                <span data-i18n="input-status">Input Status: Ready</span>
+            </div>
+            
+            <button class="test-btn" onclick="testInputField()" data-i18n="test-input-btn">
+                Test Input Field
+            </button>
+            <button class="test-btn" onclick="toggleInputState()" data-i18n="toggle-input-btn">
+                Toggle Input State
+            </button>
+        </div>
+
+        <!-- Bug 2 Test: CEO Message -->
+        <div class="test-section">
+            <h3 data-i18n="bug2-title">🐛 Bug 2: CEO Message Language</h3>
+            <p data-i18n="bug2-desc">Test if CEO message changes with language</p>
+            
+            <div class="status info" id="ceoStatus">
+                <span data-i18n="ceo-status">CEO Message Language: English</span>
+            </div>
+            
+            <button class="test-btn" onclick="showCEOMessage()" data-i18n="show-ceo-btn">
+                Show CEO Message
+            </button>
+            <button class="test-btn" onclick="testAllLanguages()" data-i18n="test-all-btn">
+                Test All Languages
+            </button>
+        </div>
+
+        <!-- Test Results -->
+        <div class="test-section">
+            <h3 data-i18n="results-title">📊 Test Results</h3>
+            <div id="testResults"></div>
+        </div>
+    </div>
+
+    <script>
+        // Simplified translations for testing
+        const translations = {
+            en: {
+                'bug1-title': '🐛 Bug 1: Input Field Click Issue',
+                'bug1-desc': 'Test if input field remains clickable after language switch',
+                'bug2-title': '🐛 Bug 2: CEO Message Language',
+                'bug2-desc': 'Test if CEO message changes with language',
+                'input-placeholder': 'Enter Solana wallet address',
+                'input-status': 'Input Status: Ready',
+                'ceo-status': 'CEO Message Language: English',
+                'test-input-btn': 'Test Input Field',
+                'toggle-input-btn': 'Toggle Input State',
+                'show-ceo-btn': 'Show CEO Message',
+                'test-all-btn': 'Test All Languages',
+                'results-title': '📊 Test Results',
+                'ceo-message': '🎉 Congratulations from our CEO! You\'ve earned great fees! Keep up the excellent work! 🎉'
+            },
+            zh: {
+                'bug1-title': '🐛 Bug 1: 输入框点击问题',
+                'bug1-desc': '测试语言切换后输入框是否仍可点击',
+                'bug2-title': '🐛 Bug 2: CEO消息语言问题',
+                'bug2-desc': '测试CEO消息是否随语言变化',
+                'input-placeholder': '输入Solana钱包地址',
+                'input-status': '输入框状态：就绪',
+                'ceo-status': 'CEO消息语言：中文',
+                'test-input-btn': '测试输入框',
+                'toggle-input-btn': '切换输入状态',
+                'show-ceo-btn': '显示CEO消息',
+                'test-all-btn': '测试所有语言',
+                'results-title': '📊 测试结果',
+                'ceo-message': '🎉 来自CEO的祝贺！您赚取了丰厚的手续费！继续保持优秀的表现！🎉'
+            },
+            ja: {
+                'bug1-title': '🐛 Bug 1: 入力フィールドクリック問題',
+                'bug1-desc': '言語切り替え後に入力フィールドがクリック可能かテスト',
+                'bug2-title': '🐛 Bug 2: CEOメッセージ言語問題',
+                'bug2-desc': 'CEOメッセージが言語と共に変わるかテスト',
+                'input-placeholder': 'Solanaウォレットアドレスを入力',
+                'input-status': '入力状態：準備完了',
+                'ceo-status': 'CEOメッセージ言語：日本語',
+                'test-input-btn': '入力フィールドテスト',
+                'toggle-input-btn': '入力状態切替',
+                'show-ceo-btn': 'CEOメッセージ表示',
+                'test-all-btn': '全言語テスト',
+                'results-title': '📊 テスト結果',
+                'ceo-message': '🎉 CEOからのお祝い！素晴らしい手数料を獲得されました！この調子で頑張ってください！🎉'
+            }
+        };
+
+        // Language Manager
+        class LanguageManager {
+            constructor() {
+                this.currentLanguage = 'en';
+                this.init();
+            }
+
+            init() {
+                const languageSelect = document.getElementById('languageSelect');
+                languageSelect.addEventListener('change', (e) => {
+                    this.setLanguage(e.target.value);
+                });
+                this.setLanguage('en');
+            }
+
+            setLanguage(lang) {
+                this.currentLanguage = lang;
+                document.documentElement.lang = lang;
+                
+                // Update all elements with data-i18n attribute
+                document.querySelectorAll('[data-i18n]').forEach(element => {
+                    const key = element.getAttribute('data-i18n');
+                    if (translations[lang] && translations[lang][key]) {
+                        element.textContent = translations[lang][key];
+                    }
+                });
+
+                // Update placeholder safely (same fix as main file)
+                const testInput = document.getElementById('testInput');
+                if (testInput) {
+                    const placeholderKey = testInput.getAttribute('data-i18n-placeholder');
+                    if (translations[lang] && translations[lang][placeholderKey]) {
+                        const currentValue = testInput.value;
+                        const isDisabled = testInput.disabled;
+                        const isReadonly = testInput.readOnly;
+                        
+                        testInput.placeholder = translations[lang][placeholderKey];
+                        
+                        testInput.value = currentValue;
+                        testInput.disabled = isDisabled;
+                        testInput.readOnly = isReadonly;
+                        
+                        if (!isDisabled && !isReadonly) {
+                            testInput.style.pointerEvents = 'auto';
+                            testInput.tabIndex = 0;
+                        }
+                    }
+                }
+
+                document.getElementById('languageSelect').value = lang;
+                
+                // Update CEO status
+                updateCEOStatus();
+            }
+
+            getText(key) {
+                return translations[this.currentLanguage][key] || translations['en'][key] || key;
+            }
+        }
+
+        // Initialize
+        const languageManager = new LanguageManager();
+
+        // Test functions
+        function testInputField() {
+            const input = document.getElementById('testInput');
+            const status = document.getElementById('inputStatus');
+            
+            try {
+                input.focus();
+                input.click();
+                
+                if (input === document.activeElement) {
+                    status.className = 'status success';
+                    status.innerHTML = '✅ Input field is working correctly!';
+                    addTestResult('Input Field Test', 'PASS', 'Input field can be focused and clicked');
+                } else {
+                    status.className = 'status error';
+                    status.innerHTML = '❌ Input field cannot be focused!';
+                    addTestResult('Input Field Test', 'FAIL', 'Input field cannot be focused');
+                }
+            } catch (error) {
+                status.className = 'status error';
+                status.innerHTML = '❌ Error testing input field: ' + error.message;
+                addTestResult('Input Field Test', 'ERROR', error.message);
+            }
+        }
+
+        function toggleInputState() {
+            const input = document.getElementById('testInput');
+            input.disabled = !input.disabled;
+            
+            const status = input.disabled ? 'Disabled' : 'Enabled';
+            addTestResult('Input State Toggle', 'INFO', `Input field is now ${status}`);
+        }
+
+        function showCEOMessage() {
+            const ceoMessage = languageManager.getText('ceo-message');
+            const currentLang = languageManager.currentLanguage;
+            
+            alert(`CEO Message (${currentLang}):\n\n${ceoMessage}`);
+            
+            addTestResult('CEO Message Test', 'INFO', `Showed CEO message in ${currentLang}`);
+        }
+
+        function testAllLanguages() {
+            const languages = ['en', 'zh', 'ja'];
+            let results = [];
+            
+            languages.forEach(lang => {
+                languageManager.setLanguage(lang);
+                const ceoMessage = languageManager.getText('ceo-message');
+                results.push(`${lang}: ${ceoMessage.substring(0, 50)}...`);
+            });
+            
+            addTestResult('All Languages Test', 'INFO', results.join('\n'));
+        }
+
+        function updateCEOStatus() {
+            const status = document.getElementById('ceoStatus');
+            const currentLang = languageManager.currentLanguage;
+            const langNames = {
+                'en': 'English',
+                'zh': 'Chinese',
+                'ja': 'Japanese',
+                'ms': 'Malay',
+                'ko': 'Korean',
+                'fr': 'French',
+                'de': 'German'
+            };
+            
+            status.innerHTML = `CEO Message Language: ${langNames[currentLang] || currentLang}`;
+        }
+
+        function addTestResult(testName, result, details) {
+            const resultsDiv = document.getElementById('testResults');
+            const timestamp = new Date().toLocaleTimeString();
+            
+            const resultClass = result === 'PASS' ? 'success' : result === 'FAIL' ? 'error' : 'info';
+            
+            resultsDiv.innerHTML += `
+                <div class="status ${resultClass}">
+                    <strong>[${timestamp}] ${testName}: ${result}</strong><br>
+                    ${details}
+                </div>
+            `;
+        }
+
+        // Auto-test on load
+        setTimeout(() => {
+            addTestResult('Page Load', 'INFO', 'Bug fixes test page loaded successfully');
+        }, 500);
+    </script>
+</body>
+</html>
