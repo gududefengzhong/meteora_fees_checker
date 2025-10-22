@@ -317,7 +317,7 @@
         }
 
         /* Cofounder Celebration Effects */
-        .ceo-celebration {
+        .cofounder-celebration {
             position: fixed;
             top: 0;
             left: 0;
@@ -329,11 +329,11 @@
             transition: opacity 0.5s ease;
         }
 
-        .ceo-celebration.active {
+        .cofounder-celebration.active {
             opacity: 1;
         }
 
-        .ceo-avatar {
+        .cofounder-avatar {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -348,18 +348,18 @@
             padding: 8px;
         }
 
-        .ceo-avatar.show {
+        .cofounder-avatar.show {
             transform: translate(-50%, -50%) scale(1);
         }
 
-        .ceo-avatar img {
+        .cofounder-avatar img {
             width: 100%;
             height: 100%;
             border-radius: 50%;
             object-fit: cover;
         }
 
-        .ceo-speech-bubble {
+        .cofounder-speech-bubble {
             position: absolute;
             top: 20%;
             left: 50%;
@@ -377,11 +377,11 @@
             z-index: 10002;
         }
 
-        .ceo-speech-bubble.show {
+        .cofounder-speech-bubble.show {
             transform: translateX(-50%) scale(1);
         }
 
-        .ceo-speech-bubble::after {
+        .cofounder-speech-bubble::after {
             content: '';
             position: absolute;
             bottom: -10px;
@@ -394,7 +394,7 @@
             border-top: 15px solid white;
         }
 
-        .ceo-sparkles {
+        .cofounder-sparkles {
             position: absolute;
             width: 20px;
             height: 20px;
@@ -414,7 +414,7 @@
             }
         }
 
-        .ceo-celebration-text {
+        .cofounder-celebration-text {
             background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
             background-size: 400% 400%;
             -webkit-background-clip: text;
@@ -703,14 +703,14 @@
     <div class="celebration-message" id="celebrationMessage"></div>
 
     <!-- Cofounder Celebration -->
-    <div class="ceo-celebration" id="ceoCelebration">
-        <div class="ceo-speech-bubble" id="ceoSpeechBubble">
-            <span class="ceo-celebration-text">
-                🎉 Congratulations from Soju! You've earned great fees! 🎉
+    <div class="cofounder-celebration" id="cofounderCelebration">
+        <div class="cofounder-speech-bubble" id="cofounderSpeechBubble">
+            <span class="cofounder-celebration-text">
+                🎉 Congratulations! You've earned great fees! 🎉
             </span>
         </div>
-        <div class="ceo-avatar" id="ceoAvatar">
-            <img src="Soju.jpg" alt="Cofounder Soju" onerror="this.src='Soju.png'">
+        <div class="cofounder-avatar" id="cofounderAvatar">
+            <img src="Soju.jpeg" alt="Cofounder" onerror="this.src='Soju.png'">
         </div>
     </div>
 
@@ -898,39 +898,48 @@
         }
 
         // Cofounder Celebration Manager
-        class CEOCelebrationManager {
+        class CofounderCelebrationManager {
             constructor() {
-                this.ceoCelebration = document.getElementById('ceoCelebration');
-                this.ceoAvatar = document.getElementById('ceoAvatar');
-                this.ceoSpeechBubble = document.getElementById('ceoSpeechBubble');
+                this.cofounderCelebration = document.getElementById('cofounderCelebration');
+                this.cofounderAvatar = document.getElementById('cofounderAvatar');
+                this.cofounderSpeechBubble = document.getElementById('cofounderSpeechBubble');
+
+                // Cofounder list with their avatar images
+                this.cofounders = [
+                    { name: 'zen', image: 'zen.png' },
+                    { name: 'Soju', image: 'Soju.png' },
+                    { name: 'miir', image: 'miir.png' }
+                ];
             }
 
             celebrate() {
-                // Update cofounder message with current language
-                const ceoMessageElement = this.ceoSpeechBubble.querySelector('[data-i18n="ceo-message"]');
+                // Randomly select a cofounder
+                const randomCofounder = this.cofounders[Math.floor(Math.random() * this.cofounders.length)];
 
-                if (ceoMessageElement && languageManager) {
-                    const currentLang = languageManager.currentLanguage || 'en';
+                // Update message with random cofounder name
+                const messageElement = this.cofounderSpeechBubble.querySelector('.cofounder-celebration-text');
+                if (messageElement) {
+                    messageElement.textContent = `🎉 Congratulations from ${randomCofounder.name}! You've earned great fees! 🎉`;
+                }
 
-                    console.log('Cofounder Celebration - Current Language:', currentLang);
-                    console.log('Cofounder Message:', ceoMessage);
-
-                    ceoMessageElement.textContent = ceoMessage;
-                } else {
-                    console.error('Cofounder message element or language manager not found');
+                // Update avatar image
+                const avatarImg = this.cofounderAvatar.querySelector('img');
+                if (avatarImg) {
+                    avatarImg.src = randomCofounder.image;
+                    avatarImg.alt = `Cofounder ${randomCofounder.name}`;
                 }
 
                 // Show cofounder celebration
-                this.ceoCelebration.classList.add('active');
+                this.cofounderCelebration.classList.add('active');
 
                 // Animate speech bubble first
                 setTimeout(() => {
-                    this.ceoSpeechBubble.classList.add('show');
+                    this.cofounderSpeechBubble.classList.add('show');
                 }, 200);
 
                 // Then animate cofounder avatar
                 setTimeout(() => {
-                    this.ceoAvatar.classList.add('show');
+                    this.cofounderAvatar.classList.add('show');
                 }, 600);
 
                 // Create sparkles around cofounder
@@ -946,7 +955,7 @@
                 for (let i = 0; i < 15; i++) {
                     setTimeout(() => {
                         const sparkle = document.createElement('div');
-                        sparkle.className = 'ceo-sparkles';
+                        sparkle.className = 'cofounder-sparkles';
 
                         // Random position around cofounder avatar
                         const angle = (Math.PI * 2 * i) / 15;
@@ -958,7 +967,7 @@
                         sparkle.style.top = y + '%';
                         sparkle.style.animationDelay = Math.random() * 2 + 's';
 
-                        this.ceoCelebration.appendChild(sparkle);
+                        this.cofounderCelebration.appendChild(sparkle);
 
                         // Remove sparkle after animation
                         setTimeout(() => {
@@ -969,13 +978,13 @@
             }
 
             hide() {
-                this.ceoAvatar.classList.remove('show');
-                this.ceoSpeechBubble.classList.remove('show');
+                this.cofounderAvatar.classList.remove('show');
+                this.cofounderSpeechBubble.classList.remove('show');
 
                 setTimeout(() => {
-                    this.ceoCelebration.classList.remove('active');
+                    this.cofounderCelebration.classList.remove('active');
                     // Clear sparkles
-                    this.ceoCelebration.querySelectorAll('.ceo-sparkles').forEach(sparkle => {
+                    this.cofounderCelebration.querySelectorAll('.cofounder-sparkles').forEach(sparkle => {
                         sparkle.remove();
                     });
                 }, 500);
@@ -984,7 +993,7 @@
 
         // Initialize managers
         window.celebrationManager = new CelebrationManager();
-        window.ceoCelebrationManager = new CEOCelebrationManager();
+        window.cofounderCelebrationManager = new CofounderCelebrationManager();
 
         class MeteoraUserProfitChecker {
             constructor() {
@@ -1108,7 +1117,7 @@
 
                         // Then show cofounder celebration effect
                         setTimeout(() => {
-                            window.ceoCelebrationManager.celebrate();
+                            window.cofounderCelebrationManager.celebrate();
                         }, 2000);
                     }
 
