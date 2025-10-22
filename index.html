@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meteora Fees Checker</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
         * {
             margin: 0;
@@ -21,29 +22,7 @@
             padding: 20px;
         }
 
-        .language-switcher {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
 
-        .language-select {
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            padding: 8px 12px;
-            font-size: 14px;
-            color: #333;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .language-select:hover {
-            background: rgba(255, 255, 255, 1);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
 
         .container {
             background: rgba(255, 255, 255, 0.95);
@@ -51,7 +30,7 @@
             border-radius: 24px;
             padding: 40px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            max-width: 700px;
+            max-width: 1200px;
             width: 100%;
             border: 1px solid rgba(255, 255, 255, 0.2);
             position: relative;
@@ -337,7 +316,7 @@
             }
         }
 
-        /* CEO Celebration Effects */
+        /* Cofounder Celebration Effects */
         .ceo-celebration {
             position: fixed;
             top: 0;
@@ -461,28 +440,87 @@
         }
 
         .pairs-list {
-            max-height: 200px;
-            overflow-y: auto;
-            background: #fff;
-            border-radius: 12px;
-            padding: 10px;
-            border: 1px solid #e1e5e9;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            background: transparent;
+            border-radius: 0;
+            padding: 0;
+            border: none;
         }
 
         .pair-item {
-            padding: 8px 12px;
-            margin: 4px 0;
+            padding: 20px;
+            margin: 0;
             background: #f8f9fa;
-            border-radius: 8px;
-            font-family: 'Monaco', 'Menlo', monospace;
-            font-size: 0.9rem;
+            border-radius: 12px;
+            border: 1px solid #e1e5e9;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .pair-item:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .pair-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .pair-name-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .pair-total-fees {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3436;
+        }
+
+        .pair-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            font-size: 0.9rem;
+        }
+
+        .pair-detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .pair-detail-label {
+            color: #666;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .pair-detail-value {
+            color: #2d3436;
+            font-weight: 600;
         }
 
         .pair-address {
             color: #666;
+            font-size: 0.85rem;
+            word-break: break-all;
+            padding-top: 8px;
+            border-top: 1px solid #e1e5e9;
         }
 
         .pair-profit {
@@ -597,6 +635,51 @@
             text-decoration: underline;
         }
 
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+        }
+
+        .pagination-btn {
+            padding: 8px 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .pagination-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .pagination-info {
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .loading-details {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-style: italic;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 30px 20px;
@@ -613,46 +696,35 @@
     </style>
 </head>
 <body>
-    <!-- Language Switcher -->
-    <div class="language-switcher">
-        <select class="language-select" id="languageSelect">
-            <option value="en">🇺🇸 English</option>
-            <option value="zh">🇨🇳 中文</option>
-            <option value="ja">🇯🇵 日本語</option>
-            <option value="ms">🇲🇾 Bahasa Malaysia</option>
-            <option value="ko">🇰🇷 한국어</option>
-            <option value="fr">🇫🇷 Français</option>
-            <option value="de">🇩🇪 Deutsch</option>
-        </select>
-    </div>
+
 
     <!-- Celebration Overlay -->
     <div class="celebration-overlay" id="celebrationOverlay"></div>
     <div class="celebration-message" id="celebrationMessage"></div>
 
-    <!-- CEO Celebration -->
+    <!-- Cofounder Celebration -->
     <div class="ceo-celebration" id="ceoCelebration">
         <div class="ceo-speech-bubble" id="ceoSpeechBubble">
-            <span class="ceo-celebration-text" data-i18n="ceo-message">
-                🎉 Congratulations from our CEO! You've earned great fees! 🎉
+            <span class="ceo-celebration-text">
+                🎉 Congratulations from Soju! You've earned great fees! 🎉
             </span>
         </div>
         <div class="ceo-avatar" id="ceoAvatar">
-            <img src="Soju.jpeg" alt="CEO Soju" onerror="this.src='Soju.png'">
+            <img src="Soju.jpeg" alt="Cofounder Soju" onerror="this.src='Soju.png'">
         </div>
     </div>
 
     <div class="container">
         <div class="header">
-            <h1 class="title" data-i18n="title">Meteora Fees Checker</h1>
-            <p class="subtitle" data-i18n="subtitle">Enter your Solana wallet address to check your total Meteora DLMM fees earned</p>
+            <h1 class="title">Meteora Fees Checker</h1>
+            <p class="subtitle">Enter your Solana wallet address to check your total Meteora DLMM fees earned</p>
         </div>
 
         <div class="search-section">
             <div class="disclaimer">
-                <div class="disclaimer-title" data-i18n="disclaimer-title">⚠️ Disclaimer</div>
-                <div class="disclaimer-text" data-i18n="disclaimer-text">
-                    This tool is designed for the Meteora DLMM project in the Solana ecosystem and is for reference only. The displayed profit data may have delays or errors. Please refer to the official Meteora platform for final points and profit information. The developer is not responsible for any losses incurred from using this tool.
+                <div class="disclaimer-title">⚠️ Disclaimer</div>
+                <div class="disclaimer-text">
+                    This tool is designed for the Meteora DLMM and is for reference only. The displayed profit data may have delays or errors. Please refer to the official Meteora platform for final points and profit information. The developer is not responsible for any losses incurred from using this tool.
                 </div>
             </div>
 
@@ -661,23 +733,22 @@
                     type="text"
                     class="wallet-input"
                     id="walletInput"
-                    data-i18n-placeholder="input-placeholder"
                     placeholder="Enter Solana wallet address (e.g., 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM)"
                     autocomplete="off"
                 >
             </div>
-            <button class="search-btn" id="searchBtn" data-i18n="search-btn">
+            <button class="search-btn" id="searchBtn">
                 Check Fees
             </button>
         </div>
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p data-i18n="loading-text">Querying fees data...</p>
+            <p>Querying fees data...</p>
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
-            <div class="progress-text" id="progressText" data-i18n="preparing-text">Preparing...</div>
+            <div class="progress-text" id="progressText">Preparing...</div>
         </div>
 
         <div class="error" id="error"></div>
@@ -685,38 +756,46 @@
         <div class="results" id="results">
             <div class="profit-card">
                 <div class="profit-amount" id="totalProfit">$0.00</div>
-                <div class="profit-label" data-i18n="total-fees-label">Total Fees Earned (USD)</div>
+                <div class="profit-label">Total Fees Earned (USD)</div>
             </div>
 
             <div class="details-card">
-                <div class="details-title" data-i18n="details-title">Details</div>
+                <div class="details-title">Details</div>
                 <div class="stat-row">
-                    <span class="stat-label" data-i18n="wallet-address-label">Wallet Address</span>
+                    <span class="stat-label">Wallet Address</span>
                     <span class="stat-value" id="walletAddress">-</span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label" data-i18n="pair-count-label">Trading Pairs</span>
+                    <span class="stat-label">Trading Pairs</span>
                     <span class="stat-value" id="pairCount">-</span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label" data-i18n="success-count-label">Successful Queries</span>
+                    <span class="stat-label">Successful Queries</span>
                     <span class="stat-value" id="successCount">-</span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label" data-i18n="query-time-label">Query Time</span>
+                    <span class="stat-label">Query Time</span>
                     <span class="stat-value" id="queryTime">-</span>
                 </div>
             </div>
 
             <div class="details-card">
-                <div class="details-title" data-i18n="pair-details-title">Trading Pair Fees Details</div>
+                <div class="details-title">Trading Pair Fees Details</div>
                 <div class="pairs-list" id="pairsList"></div>
+                <div class="loading-details" id="loadingDetails" style="display: none;">
+                    Loading pair details...
+                </div>
+                <div class="pagination" id="pagination" style="display: none;">
+                    <button class="pagination-btn" id="prevBtn">Previous</button>
+                    <span class="pagination-info" id="pageInfo">Page 1 of 1</span>
+                    <button class="pagination-btn" id="nextBtn">Next</button>
+                </div>
             </div>
         </div>
 
         <div class="footer">
             <div class="contact-section">
-                <div class="contact-title" data-i18n="contact-developer-title">👨‍💻 Contact Developer</div>
+                <div class="contact-title">👨‍💻 Contact Developer</div>
                 <div class="contact-links">
                     <a href="https://x.com/rochestor_mu" target="_blank" class="contact-link">
                         <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor">
@@ -740,357 +819,20 @@
             </div>
 
             <div class="thanks-section">
-                <div class="thanks-title" data-i18n="thanks-title">🙏 Special Thanks</div>
-                <p>
-                    <span data-i18n="thanks-text-part1">Thanks to</span>
-                    <span class="platform-links">
-                        <a href="https://meteora.ag" target="_blank" class="platform-link">Meteora</a>
-                        <span data-i18n="thanks-text-and">and</span>
-                        <a href="https://dune.com" target="_blank" class="platform-link">Dune Analytics</a>
-                    </span>
-                    <span data-i18n="thanks-text-part2">for providing excellent technical support and data services that make this Solana ecosystem data query tool possible.</span>
+                <p style="font-size: 1rem; margin-bottom: 15px;">
+                    Built with ❤️ for <a href="https://meteora.ag" target="_blank" class="platform-link">Meteora</a>
                 </p>
-                <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;" data-i18n="thanks-footer">
-                    This tool is open source and free, designed to provide convenient profit query services for Solana and Meteora users ❤️
+                <p style="font-size: 0.9rem; opacity: 0.8;">
+                    <a href="https://tiplink.io/blinks/donate?dest=G4FEgdE3yduy8WexqLWda3SGYBTgnydP37GnCcZRJjPR" target="_blank" style="color: #667eea; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                        <span style="font-size: 1.2rem;">☕</span>
+                        <span>Buy me a coffee</span>
+                    </a>
                 </p>
             </div>
         </div>
     </div>
 
     <script>
-        // Multi-language support
-        const translations = {
-            en: {
-                'title': 'Meteora Fees Checker',
-                'subtitle': 'Enter your Solana wallet address to check your total Meteora DLMM fees earned',
-                'disclaimer-title': '⚠️ Disclaimer',
-                'disclaimer-text': 'This tool is designed for the Meteora DLMM project in the Solana ecosystem and is for reference only. The displayed fees data may have delays or errors. Please refer to the official Meteora platform for final points and fees information. The developer is not responsible for any losses incurred from using this tool.',
-                'input-placeholder': 'Enter Solana wallet address (e.g., 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM)',
-                'search-btn': 'Check Fees',
-                'loading-text': 'Querying fees data...',
-                'preparing-text': 'Preparing...',
-                'error-not-found': 'Meteora DLMM trading pair data not found for this Solana wallet.',
-                'error-network': 'Network error, please try again later.',
-                'query-failed': 'Query Failed',
-                'total-fees': 'Total Fees',
-                'total-fees-label': 'Total Fees Earned (USD)',
-                'details-title': 'Details',
-                'wallet-address-label': 'Wallet Address',
-                'pair-count-label': 'Trading Pairs',
-                'success-count-label': 'Successful Queries',
-                'query-time-label': 'Query Time',
-                'pair-details-title': 'Trading Pair Fees Details',
-                'fees-details': 'Fees Details',
-                'trading-pairs': 'Trading Pairs',
-                'total-pairs': 'Total Pairs',
-                'contact-title': 'Contact & Support',
-                'contact-developer-title': '👨‍💻 Contact Developer',
-                'thanks-title': '🙏 Special Thanks',
-                'thanks-text-part1': 'Thanks to',
-                'thanks-text-and': 'and',
-                'thanks-text-part2': 'for providing excellent technical support and data services that make this Solana ecosystem data query tool possible.',
-                'thanks-footer': 'This tool is open source and free, designed to provide convenient profit query services for Solana and Meteora users ❤️',
-                'celebration-message': '🎉 Congratulations! You have earned fees! 🎉',
-                'ceo-message': '🎉 Congratulations from our CEO! You\'ve earned great fees! Keep up the excellent work! 🎉',
-                'progress-text': 'Completed {completed}/{total} queries',
-                'seconds-unit': 's',
-                'error-empty-address': 'Please enter a Solana wallet address',
-                'error-invalid-address': 'Please enter a valid Solana wallet address'
-            },
-            zh: {
-                'title': 'Meteora 手续费查询器',
-                'subtitle': '输入Solana钱包地址查询您的Meteora DLMM总手续费收入',
-                'disclaimer-title': '⚠️ 免责声明',
-                'disclaimer-text': '本工具专为Solana生态系统中的Meteora DLMM项目设计，仅供参考使用。显示的手续费数据可能存在延迟或误差，最终的积分和手续费情况请以Meteora官方平台数据为准。使用本工具产生的任何损失，开发者不承担责任。',
-                'input-placeholder': '输入Solana钱包地址 (如: 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM)',
-                'search-btn': '查询手续费',
-                'loading-text': '正在查询手续费数据...',
-                'preparing-text': '准备中...',
-                'error-not-found': '未找到该Solana钱包的Meteora DLMM交易对数据',
-                'error-network': '网络错误，请稍后重试',
-                'query-failed': '查询失败',
-                'total-fees': '总手续费',
-                'total-fees-label': '总手续费收入 (USD)',
-                'details-title': '详细信息',
-                'wallet-address-label': '钱包地址',
-                'pair-count-label': '交易对数量',
-                'success-count-label': '成功查询',
-                'query-time-label': '查询时间',
-                'pair-details-title': '交易对手续费详情',
-                'fees-details': '手续费详情',
-                'trading-pairs': '交易对',
-                'total-pairs': '总交易对数',
-                'contact-title': '联系与支持',
-                'contact-developer-title': '👨‍💻 联系开发者',
-                'thanks-title': '🙏 特别感谢',
-                'thanks-text-part1': '感谢',
-                'thanks-text-and': '和',
-                'thanks-text-part2': '提供的优秀技术支持和数据服务，让这个Solana生态系统的数据查询工具得以实现。',
-                'thanks-footer': '本工具开源免费，专为Solana和Meteora用户提供便利的盈利查询服务 ❤️',
-                'celebration-message': '🎉 恭喜！您赚取了手续费！🎉',
-                'ceo-message': '🎉 来自CEO的祝贺！您赚取了丰厚的手续费！继续保持优秀的表现！🎉',
-                'progress-text': '已完成 {completed}/{total} 个查询',
-                'seconds-unit': '秒',
-                'error-empty-address': '请输入Solana钱包地址',
-                'error-invalid-address': '请输入有效的Solana钱包地址'
-            },
-            ja: {
-                'title': 'Meteora 利益チェッカー',
-                'subtitle': 'Solanaウォレットアドレスを入力してMeteora DLMMの総利益を確認',
-                'disclaimer-title': '⚠️ 免責事項',
-                'disclaimer-text': 'このツールはSolanaエコシステムのMeteora DLMMプロジェクト用に設計されており、参考用途のみです。表示される利益データには遅延や誤差がある可能性があります。最終的なポイントと利益情報については、Meteora公式プラットフォームを参照してください。このツールの使用により生じた損失について、開発者は責任を負いません。',
-                'input-placeholder': 'Solanaウォレットアドレスを入力 (例: 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM)',
-                'search-btn': '利益を確認',
-                'loading-text': '利益データを照会中...',
-                'preparing-text': '準備中...',
-                'error-not-found': 'このSolanaウォレットのMeteora DLMM取引ペアデータが見つかりません',
-                'error-network': 'ネットワークエラー、後でもう一度お試しください',
-                'query-failed': 'クエリ失敗',
-                'total-fees': '総手数料',
-                'total-fees-label': '総手数料収入 (USD)',
-                'details-title': '詳細情報',
-                'wallet-address-label': 'ウォレットアドレス',
-                'pair-count-label': '取引ペア数',
-                'success-count-label': '成功クエリ',
-                'query-time-label': 'クエリ時間',
-                'pair-details-title': '取引ペア利益詳細',
-                'profit-details': '利益詳細',
-                'trading-pairs': '取引ペア',
-                'total-pairs': '総ペア数',
-                'contact-title': '連絡・サポート',
-                'contact-developer-title': '👨‍💻 開発者に連絡',
-                'thanks-title': '🙏 特別感謝',
-                'thanks-text-part1': '優秀な技術サポートとデータサービスを提供してくださった',
-                'thanks-text-and': 'と',
-                'thanks-text-part2': 'に感謝いたします。このSolanaエコシステムのデータクエリツールを実現することができました。',
-                'thanks-footer': 'このツールはオープンソースで無料です。SolanaとMeteoraユーザーに便利な利益クエリサービスを提供するために設計されています ❤️',
-                'celebration-message': '🎉 おめでとうございます！手数料を獲得しました！🎉',
-                'ceo-message': '🎉 CEOからのお祝い！素晴らしい手数料を獲得されました！この調子で頑張ってください！🎉',
-                'progress-text': '{completed}/{total} 件のクエリが完了',
-                'seconds-unit': '秒',
-                'error-empty-address': 'Solanaウォレットアドレスを入力してください',
-                'error-invalid-address': '有効なSolanaウォレットアドレスを入力してください'
-            },
-            ms: {
-                'title': 'Pemeriksa Keuntungan Meteora',
-                'subtitle': 'Masukkan alamat dompet Solana anda untuk memeriksa jumlah keuntungan Meteora DLMM',
-                'disclaimer-title': '⚠️ Penafian',
-                'disclaimer-text': 'Alat ini direka untuk projek Meteora DLMM dalam ekosistem Solana dan hanya untuk rujukan. Data keuntungan yang dipaparkan mungkin mengalami kelewatan atau ralat. Sila rujuk platform rasmi Meteora untuk maklumat mata dan keuntungan akhir. Pembangun tidak bertanggungjawab atas sebarang kerugian yang timbul daripada penggunaan alat ini.',
-                'input-placeholder': 'Masukkan alamat dompet Solana (cth: 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM)',
-                'search-btn': 'Periksa Keuntungan',
-                'loading-text': 'Menanyakan data keuntungan...',
-                'preparing-text': 'Menyediakan...',
-                'error-not-found': 'Data pasangan dagangan Meteora DLMM tidak dijumpai untuk dompet Solana ini',
-                'error-network': 'Ralat rangkaian, sila cuba lagi kemudian',
-                'total-profit': 'Jumlah Keuntungan',
-                'total-profit-label': 'Jumlah Keuntungan (USD)',
-                'details-title': 'Butiran',
-                'wallet-address-label': 'Alamat Dompet',
-                'pair-count-label': 'Pasangan Dagangan',
-                'success-count-label': 'Pertanyaan Berjaya',
-                'query-time-label': 'Masa Pertanyaan',
-                'pair-details-title': 'Butiran Keuntungan Pasangan Dagangan',
-                'profit-details': 'Butiran Keuntungan',
-                'trading-pairs': 'Pasangan Dagangan',
-                'total-pairs': 'Jumlah Pasangan',
-                'contact-title': 'Hubungi & Sokongan',
-                'contact-developer-title': '👨‍💻 Hubungi Pembangun',
-                'thanks-title': '🙏 Terima Kasih Khas',
-                'thanks-text-part1': 'Terima kasih kepada',
-                'thanks-text-and': 'dan',
-                'thanks-text-part2': 'kerana menyediakan sokongan teknikal yang cemerlang dan perkhidmatan data yang membolehkan alat pertanyaan data ekosistem Solana ini direalisasikan.',
-                'thanks-footer': 'Alat ini adalah sumber terbuka dan percuma, direka untuk menyediakan perkhidmatan pertanyaan keuntungan yang mudah untuk pengguna Solana dan Meteora ❤️',
-                'celebration-message': '🎉 Tahniah! Anda telah memperoleh yuran! 🎉',
-                'ceo-message': '🎉 Tahniah daripada CEO kami! Anda telah memperoleh yuran yang hebat! Teruskan kerja cemerlang! 🎉',
-                'progress-text': 'Selesai {completed}/{total} pertanyaan',
-                'seconds-unit': 's',
-                'error-empty-address': 'Sila masukkan alamat dompet Solana',
-                'error-invalid-address': 'Sila masukkan alamat dompet Solana yang sah'
-            },
-            ko: {
-                'title': 'Meteora 수익 체커',
-                'subtitle': 'Solana 지갑 주소를 입력하여 Meteora DLMM 총 수익을 확인하세요',
-                'disclaimer-title': '⚠️ 면책 조항',
-                'disclaimer-text': '이 도구는 Solana 생태계의 Meteora DLMM 프로젝트용으로 설계되었으며 참고용으로만 사용됩니다. 표시된 수익 데이터에는 지연이나 오류가 있을 수 있습니다. 최종 포인트 및 수익 정보는 Meteora 공식 플랫폼을 참조하십시오. 이 도구 사용으로 인한 손실에 대해 개발자는 책임지지 않습니다.',
-                'input-placeholder': 'Solana 지갑 주소 입력 (예: 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM)',
-                'search-btn': '수익 확인',
-                'loading-text': '수익 데이터 조회 중...',
-                'preparing-text': '준비 중...',
-                'error-not-found': '이 Solana 지갑의 Meteora DLMM 거래 쌍 데이터를 찾을 수 없습니다',
-                'error-network': '네트워크 오류, 나중에 다시 시도해주세요',
-                'total-profit': '총 수익',
-                'total-profit-label': '총 수익 (USD)',
-                'details-title': '세부 정보',
-                'wallet-address-label': '지갑 주소',
-                'pair-count-label': '거래 쌍 수',
-                'success-count-label': '성공한 쿼리',
-                'query-time-label': '쿼리 시간',
-                'pair-details-title': '거래 쌍 수익 세부사항',
-                'profit-details': '수익 세부사항',
-                'trading-pairs': '거래 쌍',
-                'total-pairs': '총 쌍 수',
-                'contact-title': '연락 및 지원',
-                'contact-developer-title': '👨‍💻 개발자 연락',
-                'thanks-title': '🙏 특별 감사',
-                'thanks-text-part1': '뛰어난 기술 지원과 데이터 서비스를 제공해주신',
-                'thanks-text-and': '과',
-                'thanks-text-part2': '에게 감사드립니다. 이 Solana 생태계 데이터 쿼리 도구를 실현할 수 있게 해주셨습니다.',
-                'thanks-footer': '이 도구는 오픈 소스이며 무료입니다. Solana와 Meteora 사용자에게 편리한 수익 쿼리 서비스를 제공하기 위해 설계되었습니다 ❤️',
-                'celebration-message': '🎉 축하합니다! 수수료를 획득했습니다! 🎉',
-                'ceo-message': '🎉 CEO의 축하 인사! 훌륭한 수수료를 획득하셨습니다! 계속해서 우수한 성과를 보여주세요! 🎉',
-                'progress-text': '{completed}/{total} 쿼리 완료',
-                'seconds-unit': '초',
-                'query-failed': '쿼리 실패',
-                'preparing-text': '준비 중...',
-                'error-empty-address': 'Solana 지갑 주소를 입력하세요',
-                'error-invalid-address': '유효한 Solana 지갑 주소를 입력하세요'
-            },
-            fr: {
-                'title': 'Vérificateur de Profits Meteora',
-                'subtitle': 'Entrez votre adresse de portefeuille Solana pour vérifier vos profits totaux Meteora DLMM',
-                'disclaimer-title': '⚠️ Avertissement',
-                'disclaimer-text': 'Cet outil est conçu pour le projet Meteora DLMM dans l\'écosystème Solana et est uniquement à des fins de référence. Les données de profit affichées peuvent avoir des retards ou des erreurs. Veuillez vous référer à la plateforme officielle Meteora pour les informations finales sur les points et les profits. Le développeur n\'est pas responsable des pertes encourues par l\'utilisation de cet outil.',
-                'input-placeholder': 'Entrez l\'adresse du portefeuille Solana (ex: 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM)',
-                'search-btn': 'Vérifier les Profits',
-                'loading-text': 'Interrogation des données de profit...',
-                'preparing-text': 'Préparation...',
-                'error-not-found': 'Données de paire de trading Meteora DLMM non trouvées pour ce portefeuille Solana',
-                'error-network': 'Erreur réseau, veuillez réessayer plus tard',
-                'total-profit': 'Profit Total',
-                'total-profit-label': 'Profit Total (USD)',
-                'details-title': 'Détails',
-                'wallet-address-label': 'Adresse du Portefeuille',
-                'pair-count-label': 'Paires de Trading',
-                'success-count-label': 'Requêtes Réussies',
-                'query-time-label': 'Temps de Requête',
-                'pair-details-title': 'Détails des Profits par Paire de Trading',
-                'profit-details': 'Détails du Profit',
-                'trading-pairs': 'Paires de Trading',
-                'total-pairs': 'Total des Paires',
-                'contact-title': 'Contact & Support',
-                'contact-developer-title': '👨‍💻 Contacter le Développeur',
-                'thanks-title': '🙏 Remerciements Spéciaux',
-                'thanks-text-part1': 'Merci à',
-                'thanks-text-and': 'et',
-                'thanks-text-part2': 'pour avoir fourni un excellent support technique et des services de données qui rendent cet outil de requête de données de l\'écosystème Solana possible.',
-                'thanks-footer': 'Cet outil est open source et gratuit, conçu pour fournir des services de requête de profits pratiques pour les utilisateurs Solana et Meteora ❤️',
-                'celebration-message': '🎉 Félicitations ! Vous avez gagné des frais ! 🎉',
-                'ceo-message': '🎉 Félicitations de notre PDG ! Vous avez gagné d\'excellents frais ! Continuez votre excellent travail ! 🎉',
-                'progress-text': '{completed}/{total} requêtes terminées',
-                'seconds-unit': 's',
-                'query-failed': 'Échec de la requête',
-                'preparing-text': 'Préparation...',
-                'error-empty-address': 'Veuillez entrer une adresse de portefeuille Solana',
-                'error-invalid-address': 'Veuillez entrer une adresse de portefeuille Solana valide'
-            },
-            de: {
-                'title': 'Meteora Gewinn-Checker',
-                'subtitle': 'Geben Sie Ihre Solana-Wallet-Adresse ein, um Ihre gesamten Meteora DLMM-Gewinne zu überprüfen',
-                'disclaimer-title': '⚠️ Haftungsausschluss',
-                'disclaimer-text': 'Dieses Tool ist für das Meteora DLMM-Projekt im Solana-Ökosystem konzipiert und dient nur als Referenz. Die angezeigten Gewinnsdaten können Verzögerungen oder Fehler aufweisen. Bitte beziehen Sie sich auf die offizielle Meteora-Plattform für endgültige Punkte- und Gewinninformationen. Der Entwickler ist nicht verantwortlich für Verluste, die durch die Nutzung dieses Tools entstehen.',
-                'input-placeholder': 'Solana-Wallet-Adresse eingeben (z.B.: 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM)',
-                'search-btn': 'Gewinne Prüfen',
-                'loading-text': 'Gewinnsdaten abfragen...',
-                'preparing-text': 'Vorbereitung...',
-                'error-not-found': 'Meteora DLMM-Handelspaar-Daten für diese Solana-Wallet nicht gefunden',
-                'error-network': 'Netzwerkfehler, bitte versuchen Sie es später erneut',
-                'total-profit': 'Gesamtgewinn',
-                'total-profit-label': 'Gesamtgewinn (USD)',
-                'details-title': 'Details',
-                'wallet-address-label': 'Wallet-Adresse',
-                'pair-count-label': 'Handelspaare',
-                'success-count-label': 'Erfolgreiche Abfragen',
-                'query-time-label': 'Abfragezeit',
-                'pair-details-title': 'Handelspaar-Gewinn-Details',
-                'profit-details': 'Gewinndetails',
-                'trading-pairs': 'Handelspaare',
-                'total-pairs': 'Gesamte Paare',
-                'contact-title': 'Kontakt & Support',
-                'contact-developer-title': '👨‍💻 Entwickler Kontaktieren',
-                'thanks-title': '🙏 Besonderer Dank',
-                'thanks-text-part1': 'Dank an',
-                'thanks-text-and': 'und',
-                'thanks-text-part2': 'für die Bereitstellung exzellenter technischer Unterstützung und Datenservices, die dieses Solana-Ökosystem-Datenabfrage-Tool ermöglichen.',
-                'thanks-footer': 'Dieses Tool ist Open Source und kostenlos, entwickelt um bequeme Gewinnabfrage-Services für Solana- und Meteora-Benutzer zu bieten ❤️',
-                'celebration-message': '🎉 Herzlichen Glückwunsch! Sie haben Gebühren verdient! 🎉',
-                'ceo-message': '🎉 Glückwünsche von unserem CEO! Sie haben großartige Gebühren verdient! Machen Sie weiter so! 🎉',
-                'progress-text': '{completed}/{total} Abfragen abgeschlossen',
-                'seconds-unit': 's',
-                'query-failed': 'Abfrage fehlgeschlagen',
-                'preparing-text': 'Vorbereitung...',
-                'error-empty-address': 'Bitte geben Sie eine Solana-Wallet-Adresse ein',
-                'error-invalid-address': 'Bitte geben Sie eine gültige Solana-Wallet-Adresse ein'
-            }
-        };
-
-        // Language and Celebration Manager
-        class LanguageManager {
-            constructor() {
-                this.currentLanguage = 'en';
-                this.init();
-            }
-
-            init() {
-                const languageSelect = document.getElementById('languageSelect');
-                languageSelect.addEventListener('change', (e) => {
-                    this.setLanguage(e.target.value);
-                });
-
-                // Set default language
-                this.setLanguage('en');
-            }
-
-            setLanguage(lang) {
-                this.currentLanguage = lang;
-                document.documentElement.lang = lang;
-
-                // Update all elements with data-i18n attribute
-                document.querySelectorAll('[data-i18n]').forEach(element => {
-                    const key = element.getAttribute('data-i18n');
-                    if (translations[lang] && translations[lang][key]) {
-                        element.textContent = translations[lang][key];
-                    }
-                });
-
-                // Update placeholder safely
-                const walletInput = document.getElementById('walletInput');
-                if (walletInput) {
-                    const placeholderKey = walletInput.getAttribute('data-i18n-placeholder');
-                    if (translations[lang] && translations[lang][placeholderKey]) {
-                        // 保存当前的输入值和状态
-                        const currentValue = walletInput.value;
-                        const isDisabled = walletInput.disabled;
-                        const isReadonly = walletInput.readOnly;
-
-                        // 更新placeholder
-                        walletInput.placeholder = translations[lang][placeholderKey];
-
-                        // 恢复状态
-                        walletInput.value = currentValue;
-                        walletInput.disabled = isDisabled;
-                        walletInput.readOnly = isReadonly;
-
-                        // 确保输入框可以获得焦点
-                        if (!isDisabled && !isReadonly) {
-                            walletInput.style.pointerEvents = 'auto';
-                            walletInput.tabIndex = 0;
-                        }
-                    }
-                }
-
-                // Update language selector
-                const languageSelect = document.getElementById('languageSelect');
-                if (languageSelect) {
-                    languageSelect.value = lang;
-                }
-            }
-
-            getText(key) {
-                return translations[this.currentLanguage][key] || translations['en'][key] || key;
-            }
-        }
-
-        // Celebration Effects Manager
         class CelebrationManager {
             constructor() {
                 this.overlay = document.getElementById('celebrationOverlay');
@@ -1099,8 +841,6 @@
 
             celebrate() {
                 // Show celebration message
-                const languageManager = window.languageManager;
-                this.message.textContent = languageManager.getText('celebration-message');
                 this.message.classList.add('show');
 
                 // Create confetti
@@ -1157,7 +897,7 @@
             }
         }
 
-        // CEO Celebration Manager
+        // Cofounder Celebration Manager
         class CEOCelebrationManager {
             constructor() {
                 this.ceoCelebration = document.getElementById('ceoCelebration');
@@ -1166,23 +906,21 @@
             }
 
             celebrate() {
-                // Update CEO message with current language
-                const languageManager = window.languageManager;
+                // Update cofounder message with current language
                 const ceoMessageElement = this.ceoSpeechBubble.querySelector('[data-i18n="ceo-message"]');
 
                 if (ceoMessageElement && languageManager) {
                     const currentLang = languageManager.currentLanguage || 'en';
-                    const ceoMessage = languageManager.getText('ceo-message');
 
-                    console.log('CEO Celebration - Current Language:', currentLang);
-                    console.log('CEO Message:', ceoMessage);
+                    console.log('Cofounder Celebration - Current Language:', currentLang);
+                    console.log('Cofounder Message:', ceoMessage);
 
                     ceoMessageElement.textContent = ceoMessage;
                 } else {
-                    console.error('CEO message element or language manager not found');
+                    console.error('Cofounder message element or language manager not found');
                 }
 
-                // Show CEO celebration
+                // Show cofounder celebration
                 this.ceoCelebration.classList.add('active');
 
                 // Animate speech bubble first
@@ -1190,12 +928,12 @@
                     this.ceoSpeechBubble.classList.add('show');
                 }, 200);
 
-                // Then animate CEO avatar
+                // Then animate cofounder avatar
                 setTimeout(() => {
                     this.ceoAvatar.classList.add('show');
                 }, 600);
 
-                // Create sparkles around CEO
+                // Create sparkles around cofounder
                 this.createSparkles();
 
                 // Hide after 5 seconds
@@ -1210,7 +948,7 @@
                         const sparkle = document.createElement('div');
                         sparkle.className = 'ceo-sparkles';
 
-                        // Random position around CEO avatar
+                        // Random position around cofounder avatar
                         const angle = (Math.PI * 2 * i) / 15;
                         const radius = 150 + Math.random() * 100;
                         const x = 50 + Math.cos(angle) * radius / window.innerWidth * 100;
@@ -1245,7 +983,6 @@
         }
 
         // Initialize managers
-        window.languageManager = new LanguageManager();
         window.celebrationManager = new CelebrationManager();
         window.ceoCelebrationManager = new CEOCelebrationManager();
 
@@ -1255,29 +992,35 @@
                 this.meteora_base_url = "https://dlmm-api.meteora.ag";
                 this.data_dir = "./meteora_data";
 
+                // Pagination state
+                this.currentPage = 1;
+                this.itemsPerPage = 10;
+                this.allPairDetails = [];
+                this.sortedDetails = [];
+
                 this.initEventListeners();
             }
 
-            // 格式化金额显示
+            // Format amount display
             formatAmount(amount) {
                 if (amount === 0) return '$0';
 
-                // 如果金额小于0.01，显示为 < $0.01
+                // If amount < 0.01, display as < $0.01
                 if (Math.abs(amount) < 0.01) {
                     return amount > 0 ? '< $0.01' : '< -$0.01';
                 }
 
-                // 如果金额小于1，显示2位小数
+                // If amount < 1, display 2 decimal places
                 if (Math.abs(amount) < 1) {
                     return `$${amount.toFixed(2)}`;
                 }
 
-                // 如果金额小于1000，显示整数
+                // If amount < 1000, display as integer
                 if (Math.abs(amount) < 1000) {
                     return `$${Math.round(amount)}`;
                 }
 
-                // 如果金额大于等于1000，使用千分位分隔符
+                // If amount >= 1000, use thousand separator
                 const formatted = Math.round(amount).toLocaleString('en-US');
                 return `$${formatted}`;
             }
@@ -1294,7 +1037,7 @@
                     }
                 });
 
-                // 输入验证 - Solana地址验证
+                // Input validation - Solana address validation
                 walletInput.addEventListener('input', (e) => {
                     const value = e.target.value.trim();
                     const isValid = this.isValidSolanaAddress(value);
@@ -1303,20 +1046,20 @@
             }
 
             isValidSolanaAddress(address) {
-                // Solana地址验证
+                // Solana address validation
                 if (!address || typeof address !== 'string') {
                     return false;
                 }
 
-                // 移除空格
+                // Remove whitespace
                 address = address.trim();
 
-                // Solana地址通常是32-44个字符的base58编码
+                // Solana address is typically 32-44 characters base58 encoded
                 if (address.length < 32 || address.length > 44) {
                     return false;
                 }
 
-                // base58字符集（不包含0、O、I、l）
+                // base58 character set (excludes 0, O, I, l)
                 const base58Regex = /^[1-9A-HJ-NP-Za-km-z]+$/;
                 if (!base58Regex.test(address)) {
                     return false;
@@ -1329,12 +1072,12 @@
                 const walletAddress = document.getElementById('walletInput').value.trim();
 
                 if (!walletAddress) {
-                    this.showError(window.languageManager.getText('error-empty-address') || 'Please enter a Solana wallet address');
+                    this.showError('Please enter a Solana wallet address');
                     return;
                 }
 
                 if (!this.isValidSolanaAddress(walletAddress)) {
-                    this.showError(window.languageManager.getText('error-invalid-address') || 'Please enter a valid Solana wallet address');
+                    this.showError('Please enter a valid Solana wallet address');
                     return;
                 }
 
@@ -1343,35 +1086,35 @@
                 this.showLoading();
 
                 try {
-                    // 获取钱包对应的lbPairs
+                    // Get wallet's lbPairs
                     const lbPairs = await this.getWalletPairs(walletAddress);
 
                     if (!lbPairs || lbPairs.length === 0) {
-                        throw new Error(window.languageManager.getText('error-not-found'));
+                        throw new Error('Wallet not found or no trading pairs');
                     }
 
-                    // 查询盈利数据
+                    // Query profit data
                     const profitData = await this.calculateTotalProfit(walletAddress, lbPairs);
 
-                    // 显示结果
+                    // Display results
                     this.displayResults(walletAddress, profitData);
 
-                    // 如果有手续费收入，触发祝贺效果
+                    // If there are fees earned, trigger celebration effects
                     if (profitData.totalProfit > 0) {
-                        // 先显示普通祝贺效果
+                        // First show normal celebration effect
                         setTimeout(() => {
                             window.celebrationManager.celebrate();
                         }, 500);
 
-                        // 然后显示CEO祝贺效果
+                        // Then show cofounder celebration effect
                         setTimeout(() => {
                             window.ceoCelebrationManager.celebrate();
                         }, 2000);
                     }
 
                 } catch (error) {
-                    console.error('查询失败:', error);
-                    this.showError(error.message || window.languageManager.getText('error-network'));
+                    console.error('Query failed:', error);
+                    this.showError(error.message || 'Network error, please try again');
                 } finally {
                     this.hideLoading();
                 }
@@ -1379,40 +1122,40 @@
 
             async getWalletPairs(walletAddress) {
                 try {
-                    // 首先尝试加载索引文件
+                    // First try to load index file
                     if (!this.walletIndex) {
                         const indexResponse = await fetch(`${this.data_dir}/wallet_index.json`);
                         if (indexResponse.ok) {
                             this.walletIndex = await indexResponse.json();
                         } else {
-                            // 如果没有索引文件，尝试加载API数据文件
+                            // If no index file, try loading API data file
                             const apiResponse = await fetch(`${this.data_dir}/wallet_pairs_api.json`);
                             if (apiResponse.ok) {
                                 const allData = await apiResponse.json();
                                 return allData[walletAddress] || null;
                             }
-                            throw new Error('无法加载钱包数据');
+                            throw new Error('Unable to load wallet data');
                         }
                     }
 
-                    // 使用索引查找对应的分组文件
+                    // Use index to find corresponding group file
                     const groupFile = this.walletIndex[walletAddress];
                     if (!groupFile) {
                         return null;
                     }
 
-                    // 加载对应的分组文件
+                    // Load corresponding group file
                     const groupResponse = await fetch(`${this.data_dir}/${groupFile}`);
                     if (!groupResponse.ok) {
-                        throw new Error('无法加载钱包分组数据');
+                        throw new Error('Unable to load wallet group data');
                     }
 
                     const groupData = await groupResponse.json();
-                    // 新的存储结构：数据在 wallets 字段中
+                    // New storage structure: data in wallets field
                     return groupData.wallets ? groupData.wallets[walletAddress] || null : groupData[walletAddress] || null;
 
                 } catch (error) {
-                    console.error('获取钱包交易对失败:', error);
+                    console.error('Failed to get wallet pairs:', error);
                     throw error;
                 }
             }
@@ -1423,9 +1166,9 @@
                 let successCount = 0;
                 const startTime = Date.now();
 
-                this.updateProgress(0, lbPairs.length, '开始查询...');
+                this.updateProgress(0, lbPairs.length, 'querying...');
 
-                // 并发请求，但限制并发数量
+                // Concurrent requests with limited batch size
                 const batchSize = 5;
                 for (let i = 0; i < lbPairs.length; i += batchSize) {
                     const batch = lbPairs.slice(i, i + batchSize);
@@ -1456,13 +1199,13 @@
                             });
                         }
 
-                        // 更新进度
+                        // Update progress
                         const completed = i + j + 1;
                         this.updateProgress(completed, lbPairs.length,
-                            window.languageManager.getText('progress-text').replace('{completed}', completed).replace('{total}', lbPairs.length));
+                            'Completed ' + completed + '/' + lbPairs.length + ' queries');
                     }
 
-                    // 添加延迟避免API限制
+                    // Add delay to avoid API rate limiting
                     if (i + batchSize < lbPairs.length) {
                         await new Promise(resolve => setTimeout(resolve, 200));
                     }
@@ -1506,49 +1249,161 @@
                 }
             }
 
+            async getPairInfo(lbPair) {
+                const url = `${this.meteora_base_url}/pair/${lbPair}`;
+
+                try {
+                    const response = await fetch(url);
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        return {
+                            success: true,
+                            data: data
+                        };
+                    } else {
+                        return {
+                            success: false,
+                            error: `HTTP ${response.status}`
+                        };
+                    }
+                } catch (error) {
+                    return {
+                        success: false,
+                        error: error.message
+                    };
+                }
+            }
+
             updateProgress(completed, total, message) {
                 const percentage = (completed / total) * 100;
                 document.getElementById('progressFill').style.width = `${percentage}%`;
                 document.getElementById('progressText').textContent = message;
             }
 
-            displayResults(walletAddress, profitData) {
-                // 显示总手续费收入
+            async displayResults(walletAddress, profitData) {
+                // Display total fees earned
                 document.getElementById('totalProfit').textContent =
                     this.formatAmount(profitData.totalProfit);
 
-                // 显示详细信息 - Solana地址格式
+                // Display details - Solana address format
                 document.getElementById('walletAddress').textContent =
                     `${walletAddress.slice(0, 8)}...${walletAddress.slice(-6)}`;
                 document.getElementById('pairCount').textContent = profitData.totalPairs;
                 document.getElementById('successCount').textContent =
                     `${profitData.successCount}/${profitData.totalPairs}`;
-                document.getElementById('queryTime').textContent = `${profitData.queryTime}${window.languageManager.getText('seconds-unit')}`;
+                document.getElementById('queryTime').textContent = `${profitData.queryTime}s`;
 
-                // 显示交易对详情
+                // Sort details by profit (descending)
+                this.sortedDetails = profitData.details.sort((a, b) => b.profit - a.profit);
+                this.currentPage = 1;
+
+                // Show results section
+                this.showResults();
+
+                // Initialize pagination
+                this.initPagination();
+
+                // Load first page
+                await this.loadPage(1);
+            }
+
+            initPagination() {
+                const prevBtn = document.getElementById('prevBtn');
+                const nextBtn = document.getElementById('nextBtn');
+
+                prevBtn.addEventListener('click', () => this.goToPage(this.currentPage - 1));
+                nextBtn.addEventListener('click', () => this.goToPage(this.currentPage + 1));
+            }
+
+            async goToPage(page) {
+                const totalPages = Math.ceil(this.sortedDetails.length / this.itemsPerPage);
+                if (page < 1 || page > totalPages) return;
+
+                this.currentPage = page;
+                await this.loadPage(page);
+            }
+
+            async loadPage(page) {
                 const pairsList = document.getElementById('pairsList');
+                const loadingDetails = document.getElementById('loadingDetails');
+                const pagination = document.getElementById('pagination');
+
+                // Show loading
+                loadingDetails.style.display = 'block';
                 pairsList.innerHTML = '';
 
-                profitData.details
-                    .sort((a, b) => b.profit - a.profit) // 按盈利降序排序
-                    .forEach(detail => {
-                        const pairItem = document.createElement('div');
-                        pairItem.className = 'pair-item';
+                const startIndex = (page - 1) * this.itemsPerPage;
+                const endIndex = Math.min(startIndex + this.itemsPerPage, this.sortedDetails.length);
+                const pageDetails = this.sortedDetails.slice(startIndex, endIndex);
 
-                        const profitColor = detail.success ?
-                            (detail.profit > 0 ? '#28a745' : '#6c757d') : '#dc3545';
+                // Load pair details for current page
+                for (const detail of pageDetails) {
+                    const pairItem = document.createElement('div');
+                    pairItem.className = 'pair-item';
 
-                        pairItem.innerHTML = `
-                            <span class="pair-address">${detail.lbPair.slice(0, 8)}...${detail.lbPair.slice(-6)}</span>
-                            <span class="pair-profit" style="color: ${profitColor}">
-                                ${detail.success ? this.formatAmount(detail.profit) : window.languageManager.getText('query-failed')}
+                    // Get pair info
+                    let pairInfo = null;
+                    if (detail.success) {
+                        const pairResponse = await this.getPairInfo(detail.lbPair);
+                        if (pairResponse.success) {
+                            pairInfo = pairResponse.data;
+                        }
+                    }
+
+                    const profitColor = detail.success ?
+                        (detail.profit > 0 ? '#28a745' : '#6c757d') : '#dc3545';
+
+                    const pairName = pairInfo ? (pairInfo.name || `Pair ${detail.lbPair.slice(0, 8)}`) : `Pair ${detail.lbPair.slice(0, 8)}`;
+                    const binStep = pairInfo ? (pairInfo.bin_step || 'N/A') : 'N/A';
+                    const baseFeePercentage = pairInfo ? (pairInfo.base_fee_percentage || 'N/A') : 'N/A';
+                    const tradingVolume = pairInfo ? (pairInfo.trade_volume_24h ? this.formatAmount(pairInfo.trade_volume_24h) : '$0') : '$0';
+
+                    pairItem.innerHTML = `
+                        <div class="pair-header">
+                            <span class="pair-name-badge">${pairName}</span>
+                            <span class="pair-total-fees" style="color: ${profitColor}">
+                                ${detail.success ? this.formatAmount(detail.profit) : 'Query Failed'}
                             </span>
-                        `;
+                        </div>
+                        <div class="pair-details-grid">
+                            <div class="pair-detail-item">
+                                <span class="pair-detail-label">Bin Step</span>
+                                <span class="pair-detail-value">${binStep}</span>
+                            </div>
+                            <div class="pair-detail-item">
+                                <span class="pair-detail-label">Base Fee</span>
+                                <span class="pair-detail-value">${baseFeePercentage}%</span>
+                            </div>
+                            <div class="pair-detail-item">
+                                <span class="pair-detail-label">24h Volume</span>
+                                <span class="pair-detail-value">${tradingVolume}</span>
+                            </div>
+                            <div class="pair-detail-item">
+                                <span class="pair-detail-label">Status</span>
+                                <span class="pair-detail-value">${detail.success ? '✓ Success' : '✗ Failed'}</span>
+                            </div>
+                        </div>
+                        <div class="pair-address">
+                            <strong>LB Pair:</strong>
+                            <a href="https://app.meteora.ag/dlmm/${detail.lbPair}" target="_blank" style="color: #667eea; text-decoration: none; word-break: break-all;">
+                                ${detail.lbPair}
+                            </a>
+                        </div>
+                    `;
 
-                        pairsList.appendChild(pairItem);
-                    });
+                    pairsList.appendChild(pairItem);
+                }
 
-                this.showResults();
+                // Hide loading
+                loadingDetails.style.display = 'none';
+
+                // Update pagination
+                const totalPages = Math.ceil(this.sortedDetails.length / this.itemsPerPage);
+                document.getElementById('pageInfo').textContent = `Page ${page} of ${totalPages}`;
+                document.getElementById('prevBtn').disabled = page === 1;
+                document.getElementById('nextBtn').disabled = page === totalPages;
+                pagination.style.display = totalPages > 1 ? 'flex' : 'none';
             }
 
             showLoading() {
@@ -1559,7 +1414,7 @@
             hideLoading() {
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('searchBtn').disabled = false;
-                // 重置进度条
+                // Reset progress bar
                 document.getElementById('progressFill').style.width = '0%';
                 document.getElementById('progressText').textContent = '';
             }
@@ -1583,7 +1438,7 @@
             }
         }
 
-        // 初始化应用
+        // Initialize application
         document.addEventListener('DOMContentLoaded', () => {
             new MeteoraUserProfitChecker();
         });

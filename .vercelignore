@@ -1,0 +1,11 @@
+*.py
+__pycache__
+*.pyc
+.git
+.gitignore
+.env
+.idea
+README.md
+DEPLOYMENT.md
+deploy.sh
+meteora_data/full_wallet_data_backup.json.tar.gz
